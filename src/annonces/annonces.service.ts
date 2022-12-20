@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Annonce } from './annonce-entity';
+import { InsertResult, Repository } from 'typeorm';
+import { Annonce } from './annonce.entity';
+import { CreateAnnonceDto } from './CreateAnnonce.dto';
 
 @Injectable()
 export class AnnoncesService {
@@ -22,21 +23,7 @@ export class AnnoncesService {
         return annonce;
     }
 
-    updateAnnonce(
-        nom_employeur: string,
-        email: string,
-        intitule: string,
-        ville: string,
-        description: string,
-        type_contrat: string,
-    ) {
-        const newAnnonce = new Annonce();
-        newAnnonce.nom_employeur = nom_employeur;
-        newAnnonce.email = email;
-        newAnnonce.intitule = intitule;
-        newAnnonce.ville = ville;
-        newAnnonce.description = description;
-        newAnnonce.type_contrat = type_contrat;
-        this.annonceRepo.save(newAnnonce);
+    async addAnnonce(newAnnonce: Annonce): Promise<InsertResult> {
+        return await this.annonceRepo.insert(newAnnonce);
     }
 }

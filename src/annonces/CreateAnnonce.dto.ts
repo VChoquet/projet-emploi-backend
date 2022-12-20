@@ -1,6 +1,8 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class CreateAnnonceDto {
+    id: number;
+
     @IsNotEmpty()
     nom_employeur: string;
 

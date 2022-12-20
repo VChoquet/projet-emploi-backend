@@ -5,12 +5,13 @@ import {
     ValidationPipe,
     Body,
     Get,
+    Patch,
+    Delete,
     Param,
     ParseIntPipe,
 } from '@nestjs/common';
 import { CreateAnnonceDto } from './CreateAnnonce.dto';
 import { AnnoncesService } from './annonces.service';
-import { Annonce } from './annonce.entity';
 
 @Controller('annonces')
 export class AnnoncesController {
@@ -18,8 +19,8 @@ export class AnnoncesController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    async addAnnonce(@Body() annonce: Annonce) {
-        return await this.annonceService.addAnnonce(annonce);
+    async addAnnonce(@Body() createAnnonceDto: CreateAnnonceDto) {
+        return await this.annonceService.addAnnonce(createAnnonceDto);
     }
 
     @Get()
@@ -30,5 +31,18 @@ export class AnnoncesController {
     @Get(':id')
     async getAnnonce(@Param('id', ParseIntPipe) id: number) {
         return await this.annonceService.getAnnonce(id);
+    }
+
+    @Patch(':id')
+    async updateAnnonce(
+        @Param('id') id: number,
+        @Body() createAnnonceDto: CreateAnnonceDto,
+    ) {
+        return await this.annonceService.updateAnnonce(id, createAnnonceDto);
+    }
+
+    @Delete(':id')
+    async deleteAnnonce(@Param('id') id: number) {
+        return await this.annonceService.deleteAnnonce(id);
     }
 }

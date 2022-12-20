@@ -34,6 +34,7 @@ export class AnnoncesController {
     }
 
     @Patch(':id')
+    @UsePipes(ValidationPipe)
     async updateAnnonce(
         @Param('id') id: number,
         @Body() createAnnonceDto: CreateAnnonceDto,

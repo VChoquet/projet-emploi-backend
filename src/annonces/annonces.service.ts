@@ -23,6 +23,9 @@ export class AnnoncesService {
         return await this.annonceRepo.save(createAnnonceDto);
     }
 
+    // * Pas demandée dans le projet final mais sans c'est pas un CRUD
+    // * Normalement utilisable dans une page web finie
+    // TODO un bouton pour modifier les champs d'une annonce
     async updateAnnonce(id: number, createAnnonceDto: CreateAnnonceDto) {
         const annonce = this.findAnnonce(createAnnonceDto.id);
         if (annonce === undefined) {

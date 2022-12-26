@@ -1,70 +1,104 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Lancement du projet
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# Requêtes POSTMAN
 
-## Installation
+## Tests d'annonces
 
-```bash
-npm install
-```
+### get la totalité des annonces disponibles
+GET http://localhost:8000/annonces
 
-## Running the app
+attendu => toutes les annonces apparaissent
 
-```bash
-# development
-$ npm run start
+### get une annonce parmi celle qui existe
 
-# watch mode
-$ npm run start:dev
+GET http://localhost:8000/annonces/{id de l'annonce à récupérer} 
 
-# production mode
-$ npm run start:prod
-```
+attendu => L'annonce apparait si l'id existe, sinon renvoi error 404
 
-## Test
+### creation d'une annonce
 
-```bash
-# unit tests
-$ npm run test
+POST http://localhost:8000/annonces
+body(raw JSON)
+{
+  "nom_employeur": "patron",
+  "email": "patron@email.com",
+  "intitule": "un poste",
+  "ville": "Faaa",
+  "description": "description complete",
+  "type_contrat": "CDI",
+  "date_creation": "Wed Dec 21 2022",
+}
+attendu => affiche l'annonce créée avec id généré et nb_visite initialisé à 0
 
-# e2e tests
-$ npm run test:e2e
+### modifier une annonce parmi celles qui existe 
+(utilisé pour update le nombre de visite de l'annonce)
 
-# test coverage
-$ npm run test:cov
-```
+PATCH http://localhost:8000/annonces/{id de l'annonce à modifier}
+body (raw JSON)
+{
+  "nom_employeur": "un employeur",
+  "email": "email@email.com",
+  "intitule": "un poste sympa",
+  "ville": "Papeete",
+  "description": "la description d'un post",
+  "type_contrat": "CDD",
+  "date_creation": "Fri Dec 23 2022",
+  "nb_visite": 22
+}
+attendu => rows_affected: 1 si l'annonce existe, rows_affected: 0 sinon
+### suppression d'une annonce existante 
 
-## Support
+(pas utilisé mais utile dans l'optique de supprimer une annonce pour laquelle on a trouvé preneur)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+DELETE http://localhost:8000/annonces/{id de l'annonce à supprimer}
 
-## Stay in touch
+attendu => rows_affected: 1 si l'annonce existe, rows_affected: 0 sinon
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Tests de candidatures:
 
-## License
+### Get toutes les candidatures existantes
 
-Nest is [MIT licensed](LICENSE).
+GET http://localhost:8000/candidatures
+
+attendu => Toutes les candidatures apparaissent
+
+### Get une candidature particulière
+
+GET http://localhost:8000/candidatures/{id de la candidature}
+
+attendu => la candidature apparait si elle existe, error 404 sinon
+
+
+### creation d'une candidature
+
+POST http://localhost:8000/candidatures/
+body(raw JSON)
+{
+  "nom": "jean",
+  "id_annonce": 1,
+  "prenom": "peuplu",
+  "email": "jeanPeuplu@email.com",
+  "pathCV": "ici"
+}
+attendu => creation d'une candidature, pas de verification sur l'existance de l'annonce
+### modifier une candidature
+(pas utilisé mais envisageable de laisser les utilisateurs modifier le contenu de leur candidatures si erronée)
+
+PATCH http://localhost:8000/candidatures/{id de la candidature a modifier}
+body(raw JSON)
+{
+        "nom": "jean",
+        "prenom": "peuplu",
+        "email": "jeanPeuplu@email.com",
+        "pathCV": "ici"
+}
+attendu => rows_affected: 1 si la candidature existe, rows_affected: 0 sinon
+
+### suppression d'une candidature
+(pas utilisé mais envisageable de supprimer toutes les candidatures liées à une annonce supprimée, ou si le candidat se désiste)
+
+DELETE http://localhost:8000/candidatures/{id de la candidature a supprimer}
+
+attendu => rows_affected: 1 si la candidature existe, rows_affected: 0 sinon

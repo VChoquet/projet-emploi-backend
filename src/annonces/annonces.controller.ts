@@ -20,7 +20,11 @@ export class AnnoncesController {
     @Post()
     @UsePipes(ValidationPipe)
     async addAnnonce(@Body() createAnnonceDto: CreateAnnonceDto) {
-        return await this.annonceService.addAnnonce(createAnnonceDto);
+        try {
+            return await this.annonceService.addAnnonce(createAnnonceDto);
+        } catch (error) {
+            return error.message;
+        }
     }
 
     @Get()

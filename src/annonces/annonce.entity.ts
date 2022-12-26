@@ -42,4 +42,16 @@ export class Annonce {
         default: '',
     })
     type_contrat: string;
+
+    @Column({
+        nullable: false,
+        default: 0,
+    })
+    nb_visite: number;
+
+    @Column({
+        nullable: false,
+        default: 'maintenant',
+    })
+    date_creation: string;
 }

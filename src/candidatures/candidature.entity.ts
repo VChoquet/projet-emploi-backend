@@ -9,6 +9,12 @@ export class Candidature {
 
     @Column({
         nullable: false,
+        default: '1',
+    })
+    id_annonce: string;
+
+    @Column({
+        nullable: false,
         default: '',
     })
     nom: string;

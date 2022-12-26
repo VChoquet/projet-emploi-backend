@@ -3,16 +3,26 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Annonce } from './annonce.entity';
 import { CreateAnnonceDto } from './CreateAnnonce.dto';
+import { Axios, AxiosResponse } from 'axios';
+import { HttpService } from '@nestjs/axios';
+import { map } from 'rxjs';
 
 @Injectable()
 export class AnnoncesService {
+    private httpService: HttpService;
     constructor(
         @InjectRepository(Annonce)
         private readonly annonceRepo: Repository<Annonce>,
-    ) {}
+    ) {
+        this.httpService = new HttpService();
+    }
 
     async getAnnonces(): Promise<Annonce[]> {
-        return await this.annonceRepo.find();
+        return await this.annonceRepo.find({
+            order: {
+                id: 'DESC',
+            },
+        });
     }
 
     async getAnnonce(id: number): Promise<Annonce> {
@@ -20,12 +30,14 @@ export class AnnoncesService {
     }
 
     async addAnnonce(createAnnonceDto: CreateAnnonceDto): Promise<Annonce> {
-        return await this.annonceRepo.save(createAnnonceDto);
+        const villes = await this.getVilles();
+        if (this.existeVille(villes, createAnnonceDto.ville)) {
+            return await this.annonceRepo.save(createAnnonceDto);
+        } else {
+            throw new Error('ville');
+        }
     }
 
-    // * Pas demandée dans le projet final mais sans c'est pas un CRUD
-    // * Normalement utilisable dans une page web finie
-    // TODO un bouton pour modifier les champs d'une annonce
     async updateAnnonce(id: number, createAnnonceDto: CreateAnnonceDto) {
         const annonce = this.findAnnonce(createAnnonceDto.id);
         if (annonce === undefined) {
@@ -44,5 +56,25 @@ export class AnnoncesService {
             throw new NotFoundException('Aucune annonce ne correspond');
         }
         return annonce;
+    }
+
+    private async getVilles() {
+        const resp = await this.httpService.axiosRef.get(
+            'https://geo.api.gouv.fr/departements/987/communes',
+        );
+        return resp.data;
+    }
+
+    private existeVille(villes, lieu): boolean {
+        const lieuUp = lieu.toUpperCase();
+        for (let i = 0; i < villes.length; i++) {
+            const villeUp = villes[i].nom.toUpperCase();
+            // console.log(villeUp + '_' + lieuUp);
+            // console.log(villeUp === lieuUp);
+            if (villeUp === lieuUp) {
+                return true;
+            }
+        }
+        return false;
     }
 }

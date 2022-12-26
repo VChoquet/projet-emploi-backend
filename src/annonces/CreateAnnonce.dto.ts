@@ -21,4 +21,9 @@ export class CreateAnnonceDto {
 
     @IsNotEmpty()
     type_contrat: string;
+
+    nb_visite: number;
+
+    @IsNotEmpty()
+    date_creation: string;
 }

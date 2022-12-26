@@ -1,6 +1,6 @@
 FROM node:16-alpine AS dev
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -15,7 +15,7 @@ FROM node:16-alpine AS prod
 ARG NODE_ENV=prod
 ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 RUN npm install --only=prod
 

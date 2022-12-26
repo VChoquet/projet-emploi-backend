@@ -1,6 +1,12 @@
 # Lancement du projet
 
+git clone https://github.com/VChoquet/projet-emploi-backend
 
+cd projet-emploi-backend
+
+npm install
+
+npm run start:dev
 
 # Requêtes POSTMAN
 

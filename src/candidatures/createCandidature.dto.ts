@@ -4,6 +4,9 @@ export class CreateCandidatureDto {
     id: number;
 
     @IsNotEmpty()
+    id_annonce: string;
+
+    @IsNotEmpty()
     nom: string;
 
     @IsNotEmpty()

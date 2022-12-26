@@ -8,6 +8,14 @@ npm install
 
 npm run start:dev
 
+# Set up base de données (postgreSQL)
+
+les données importantes pour la base de données sont disponibles dans le fichier .env
+
+le fichier database.sql contient les requêtes nécessaires pour créer la base de données,
+les tables et entrer des tuples dans les tables. Utilisable dans pgAdmin/Tools/query_tool.
+La base de données et les tables devraient se créer automatiquement au premier lancement du projet.
+
 # Requêtes POSTMAN
 
 ## Tests d'annonces

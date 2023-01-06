@@ -12,7 +12,7 @@ CREATE DATABASE "manaoProjectDB"
 /*Creation de la table annonce*/
 CREATE TABLE IF NOT EXISTS public.annonce
 (
-    id bigint NOT NULL DEFAULT nextval('annonce_id_seq'::regclass),
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom_employeur character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     email character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     intitule character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
@@ -21,8 +21,7 @@ CREATE TABLE IF NOT EXISTS public.annonce
     type_contrat character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     nb_visite integer NOT NULL DEFAULT 0,
     date_creation character varying COLLATE pg_catalog."default" NOT NULL DEFAULT 'maintenant'::character varying,
-    CONSTRAINT "PK_17877abe3820cc4790f32b58c63" PRIMARY KEY (id)
-)
+);
 
 TABLESPACE pg_default;
 
@@ -33,14 +32,13 @@ ALTER TABLE IF EXISTS public.annonce
 /*Creation de la table candidature*/
     CREATE TABLE IF NOT EXISTS public.candidature
 (
-    id bigint NOT NULL DEFAULT nextval('candidature_id_seq'::regclass),
+    id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     prenom character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     email character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     "pathCV" character varying COLLATE pg_catalog."default" NOT NULL DEFAULT ''::character varying,
     id_annonce character varying COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::character varying,
-    CONSTRAINT "PK_35a6008b023f10df280baced5bc" PRIMARY KEY (id)
-)
+);
 
 TABLESPACE pg_default;
 

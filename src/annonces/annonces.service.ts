@@ -38,12 +38,13 @@ export class AnnoncesService {
         }
     }
 
-    async updateAnnonce(id: number, createAnnonceDto: CreateAnnonceDto) {
-        const annonce = this.findAnnonce(createAnnonceDto.id);
+    async updateAnnonce(id: number, nb_visite: number) {
+        const annonce = await this.findAnnonce(id);
         if (annonce === undefined) {
             throw new NotFoundException('Aucune annonce ne correspond');
         }
-        return await this.annonceRepo.update(id, createAnnonceDto);
+        annonce.nb_visite = nb_visite;
+        return await this.annonceRepo.save(annonce);
     }
 
     async deleteAnnonce(id: number) {

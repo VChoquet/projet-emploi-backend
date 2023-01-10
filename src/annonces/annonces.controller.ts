@@ -13,6 +13,10 @@ import {
 import { CreateAnnonceDto } from './CreateAnnonce.dto';
 import { AnnoncesService } from './annonces.service';
 
+interface updater {
+    nb_visite: number;
+}
+
 @Controller('annonces')
 export class AnnoncesController {
     constructor(private readonly annonceService: AnnoncesService) {}
@@ -39,11 +43,8 @@ export class AnnoncesController {
 
     @Patch(':id')
     @UsePipes(ValidationPipe)
-    async updateAnnonce(
-        @Param('id') id: number,
-        @Body() createAnnonceDto: CreateAnnonceDto,
-    ) {
-        return await this.annonceService.updateAnnonce(id, createAnnonceDto);
+    async updateAnnonce(@Param('id') id: number, @Body() body: updater) {
+        return await this.annonceService.updateAnnonce(id, body.nb_visite);
     }
 
     @Delete(':id')

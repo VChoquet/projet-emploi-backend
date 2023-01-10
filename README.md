@@ -12,9 +12,12 @@ npm run start:dev
 
 les données importantes pour la base de données sont disponibles dans le fichier .env
 
-le fichier database.sql contient les requêtes nécessaires pour créer la base de données,
-les tables et entrer des tuples dans les tables. Utilisable dans pgAdmin/Tools/query_tool.
+le fichier database.sql contient les requêtes nécessaires pour créer la base de données*,
+les tables et entrées des tuples dans les tables. Utilisable dans pgAdmin/Tools/query_tool.
 La base de données et les tables devraient se créer automatiquement au premier lancement du projet.
+
+*Possibilité de créer la base de données directement via un click droit sur Server/PostgreSQL/databases
+-> create -> database et de créer la base de données avec le nom manaoProjectDB
 
 # Requêtes POSTMAN
 
@@ -27,7 +30,7 @@ attendu => toutes les annonces apparaissent
 
 ### get une annonce parmi celle qui existe
 
-GET http://localhost:8000/annonces/{id de l'annonce à récupérer} 
+GET http://localhost:8000/annonces/{id de l'annonce à récupérer}
 
 attendu => L'annonce apparait si l'id existe, sinon renvoi error 404
 
@@ -42,7 +45,7 @@ body(raw JSON)
   "ville": "Faaa",
   "description": "description complete",
   "type_contrat": "CDI",
-  "date_creation": "Wed Dec 21 2022",
+  "date_creation": "Wed Dec 21 2022"
 }
 attendu => affiche l'annonce créée avec id généré et nb_visite initialisé à 0
 
